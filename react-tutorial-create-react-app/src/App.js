@@ -14,17 +14,19 @@ const isMetaMaskInstalled = () => {
 }
 
 // Make function App() {} to an arrow function component
-const App = () => {
+const App = (props) => {
   const [value, setValue] = useState(1);
 
   return (
     <div className="App">
       <h1>Hello, React!</h1>
-      <p>You can type web3 or ethereum in developer console, it prints a Proxy object</p>
+      {/* You can type web3 or ethereum in developer console, it prints a Proxy object */}
+      <p align="left">1234567890</p>
       <p>Metamask: { isMetaMaskInstalled() ? "Installed" : "Not Found" }</p>
 
       <div>
-        <p>{value}</p>
+        <p>I am props.name: {props.name}</p>
+        <p>I am a state: {value}</p>
         <button onClick={() => setValue((value + 1))}>Increment Value</button>
       </div>
     </div>
