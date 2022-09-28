@@ -13,17 +13,43 @@ const isMetaMaskInstalled = () => {
   return Boolean(ethereum && ethereum.isMetaMask);
 }
 
+// A component is a piece of code that returns / renders some jsx
+const Person = (props) => {
+  return (
+    <>
+      <h1>Name: {props.name}</h1>
+      <h2>Last Name: {props.lastName}</h2>
+      <h2>Age: {props.age}</h2>
+    </>
+  )
+}
+
 // Make function App() {} to an arrow function component
 const App = (props) => {
   const [value, setValue] = useState(1);
+  const hasManager = true;
 
   return (
     <div className="App">
       <h1>Hello, React!</h1>
       {/* You can type web3 or ethereum in developer console, it prints a Proxy object */}
-      <p align="left">1234567890</p>
       <p>Metamask: { isMetaMaskInstalled() ? "Installed" : "Not Found" }</p>
+      {hasManager ? (
+        <>
+          I have a manager
+        </>
+      ) : (
+        <>
+          <h2>hasManager: false</h2>
+          <h2>give me a manager</h2>
+        </>
+      )}
 
+      <hr/>
+      <Person name="John" lastName="Doe" age={25} />
+      <Person name='Bell' lastName='Los' age={36} />
+      
+      <hr/>
       <div>
         <p>I am props.name: {props.name}</p>
         <p>I am a state: {value}</p>
