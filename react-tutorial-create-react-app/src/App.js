@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useState, useEffect} from "react";
 import './App.css';
 
 // Add function
@@ -28,12 +28,23 @@ const Person = (props) => {
 const App = (props) => {
   const [value, setValue] = useState(1);
   const hasManager = true;
+  const [mmInstalled, setMMInstalled] = useState(false);
+
+  useEffect(() => {
+    console.log('This should be called only 1 time')
+    setMMInstalled(isMetaMaskInstalled());
+
+  }, []); // will only called at 1st time
+
+  useEffect(() => {
+    console.log('You have changed the value to ' + value);
+  }, [value]);
 
   return (
     <div className="App">
       <h1>Hello, React!</h1>
       {/* You can type web3 or ethereum in developer console, it prints a Proxy object */}
-      <p>Metamask: { isMetaMaskInstalled() ? "Installed" : "Not Found" }</p>
+      <p>Metamask: { mmInstalled ? "Installed" : "Not Found" }</p>
       {hasManager ? (
         <>
           I have a manager
@@ -54,6 +65,7 @@ const App = (props) => {
         <p>I am props.name: {props.name}</p>
         <p>I am a state: {value}</p>
         <button onClick={() => setValue((value + 1))}>Increment Value</button>
+        <button onClick={() => setValue((preValue) => preValue - 1)}>Decrease Value</button>
       </div>
     </div>
   );
