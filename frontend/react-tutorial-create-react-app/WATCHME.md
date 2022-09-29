@@ -4,6 +4,7 @@
   - 可看它安裝 react, react-dom, react-scripts with cra-template...
   - 裝完它會告訴你有幾個指令可用, 最重要的就是 `npm start` 及 `npm run build`
 - `tree -I 'node_modules|cache|test_*'` 看一下它產生了什麼檔案
+  - `tree -L 2 --dirsfirst` 優先
 
 thomaschang@SBPUS-LT06 react-tutorial-create-react-app % tree -I 'node_modules|cache|test_*'
 .
@@ -28,3 +29,27 @@ thomaschang@SBPUS-LT06 react-tutorial-create-react-app % tree -I 'node_modules|c
     └── setupTests.js
 
 2 directories, 17 files
+
+## 分析
+- 首頁 public/index.html 的 body 裡只有 `<div id="root"></div>`
+- src/index.js 會先得到這個 root 並用 ReactDOM.render() 將 App 元件畫在真正的 DOM 上
+
+```js
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+);
+```
+- App 元件定義在 src/App.js, 它以 functional 元件的型式定義, 回傳一個 html (必須用個 <div> 裝起來)
+- 使用 useState() hook 要注意
+```js
+const [value, setValue] = useState({foo: "bar", test: {example: "demo"}});
+setValue({foo: "foobar"});
+// Results in {foo: "foobar"} 完全被取代, 原本的 test 不見了
+
+// using multiple state values 在更新的時後要使用 ...
+const [user, setUser] = useState({id: 1, username: "foobar"});
+setUser({...user, username: "example"});// OK!
+```
