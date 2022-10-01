@@ -3,8 +3,8 @@ import MovieCard from './component/MovieCard';
 import './App.css';
 import searchIcon from './assets/images/search.svg'
 
-//OMDb API: http://www.omdbapi.com/?i=tt3896198&apikey=1b5af3c4
-const OMDB_API_URL = 'http://www.omdbapi.com?apiKey=1b5af3c4'
+//OMDb API: http://www.omdbapi.com/?i=tt3896198&apikey=XXX
+const OMDB_API_URL = `http://www.omdbapi.com?apiKey=${process.env.REACT_APP_OMDB_API_KEY}`
 
 const movie1 = {
   "Title": "Spiderman in Cannes",
