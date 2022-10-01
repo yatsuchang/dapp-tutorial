@@ -15,12 +15,14 @@ const movie1 = {
 }
 
 const App = (props) => {
+  const [movies, setMovies] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
 
   const searchMovies = async (title) => {
     const response = await fetch(`${OMDB_API_URL}&s=${title}`);
     const data = await response.json();
 
-    console.log(data.Search);
+    setMovies(data.Search);
   }
 
   useEffect(() => {
@@ -37,19 +39,30 @@ const App = (props) => {
       <div className="search">
         <input
           placeholder="Search for movies"
-          value="Superman"
-          onChange={() => {}}
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
         />
         <img
           src={searchIcon}
           alt="search"
-          onClick={() => {}}
+          onClick={() => searchMovies(searchTerm)}
         />
       </div>
 
-      <div className="container">
-        <MovieCard movie1={movie1} />
-      </div>      
+      {movies?.length > 0
+          ? (
+            <div className="container">
+              {/* <MovieCard movie1={movie1} /> */}
+              {movies.map((movie) => (
+                <MovieCard key={movie.imdbID} movie={movie} />
+              ))}
+            </div>
+          ) : (
+            <div className="empty">
+              <h2>No movies found</h2>
+            </div>
+          )
+      }      
     </div>
   );
 }
