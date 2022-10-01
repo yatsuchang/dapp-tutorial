@@ -1,6 +1,8 @@
 import React from 'react';
 import { useState, useEffect } from "react";
 import { useWeb3React } from '@web3-react/core'; // hook for wallet connection events
+import { WalletLinkConnector } from "@web3-react/walletlink-connector";
+import { WalletConnectConnector } from "@web3-react/walletconnect-connector";
 import { InjectedConnector } from "@web3-react/injected-connector";// Injected (e.g. Metamask, safepal, trustwallet)
 
 //import './App.css';
@@ -8,6 +10,18 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Button from 'react-bootstrap/Button';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import Dropdown from 'react-bootstrap/Dropdown'
+
+const CoinbaseWallet = new WalletLinkConnector({
+  url: `https://mainnet.infura.io/v3/${process.env.INFURA_KEY}`,
+  appName: "Web3-react Demo",
+  supportedChainIds: [1, 3, 4, 5, 42],
+});
+
+const WalletConnect = new WalletConnectConnector({
+  rpcUrl: `https://mainnet.infura.io/v3/${process.env.INFURA_KEY}`,
+  bridge: "https://bridge.walletconnect.org",
+  qrcode: true,
+});
 
 const Injected = new InjectedConnector({
   supportedChainIds: [
@@ -84,6 +98,8 @@ function App() {
       <div>Account: {account}</div>
       <div>Network ID: {chainId}</div>
 
+      <Button variant="primary" onClick={() => { activate(CoinbaseWallet) }}>Coinbase Wallet</Button>{' '}
+      <Button variant="primary" onClick={() => { activate(WalletConnect) }}>Wallet Connect</Button>{' '}
       <Button variant="primary" onClick={() => { activate(Injected) }}>Metamask</Button>{' '}
 
       <Button onClick={deactivate}>Disconnect</Button>
