@@ -4,6 +4,7 @@ import { useWeb3React } from '@web3-react/core'; // hook for wallet connection e
 import { WalletLinkConnector } from "@web3-react/walletlink-connector";
 import { WalletConnectConnector } from "@web3-react/walletconnect-connector";
 import { InjectedConnector } from "@web3-react/injected-connector";// Injected (e.g. Metamask, safepal, trustwallet)
+import { ethers } from 'ethers';
 
 //import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -18,7 +19,7 @@ const CoinbaseWallet = new WalletLinkConnector({
 });
 
 const WalletConnect = new WalletConnectConnector({
-  rpcUrl: `https://mainnet.infura.io/v3/${process.env.INFURA_KEY}`,
+  rpc: `https://mainnet.infura.io/v3/${process.env.INFURA_KEY}`,
   bridge: "https://bridge.walletconnect.org",
   qrcode: true,
 });
@@ -34,12 +35,42 @@ const Injected = new InjectedConnector({
   ],
 })
 
+// make it a component
+const ConnectWallet = () => {
+  const { chainId, account, active, activate, deactivate, library } = useWeb3React()
+  const [ balance, setBalance] = useState("")
+  useEffect(() => {
+    library?.getBalance(account).then((result: any)=>{
+      console.log(result)
+      if (account)
+        setBalance(ethers.utils.formatEther(result))
+    })
+    
+  }, [account]);
+
+  return (
+    <>
+      <div>Connection Status: {active ? 'already' : 'not'} connected</div>
+      <div>Account: {account}</div>
+      <div>Balance: {balance}</div>
+      <div>Network ID: {chainId}</div>
+
+      <Button variant="primary" onClick={() => { activate(CoinbaseWallet) }}>Coinbase Wallet</Button>{' '}
+      <Button variant="primary" onClick={() => { activate(WalletConnect) }}>Wallet Connect</Button>{' '}
+      <Button variant="primary" onClick={() => { activate(Injected) }}>Metamask</Button>{' '}
+
+      <Button onClick={deactivate}>Disconnect</Button>
+    </>
+  )
+
+}
+
 function App() {
   /*  active: boolean indicating connection to user’s wallet
       account: connected user's public wallet address
       chainId: chain id of the currently connected network
       library: to add/switch networks, must make a request to Web3Provider */
-  const { chainId, account, active, activate, deactivate, library } = useWeb3React()
+  const {library } = useWeb3React()
   const [ddNetwork, setDdNetwork] = useState('Dropdown Button');
   const [ddChainId, setDdChainId] = useState('0x1');
   let networkOptions = ['Binance Smart Chain Mainnet', 'Ethereum Mainnet', 'Polygon Mainnet'];
@@ -94,15 +125,7 @@ function App() {
 
   return (
     <div className="App">
-      <div>Connection Status: {active ? 'already' : 'not'} connected</div>
-      <div>Account: {account}</div>
-      <div>Network ID: {chainId}</div>
-
-      <Button variant="primary" onClick={() => { activate(CoinbaseWallet) }}>Coinbase Wallet</Button>{' '}
-      <Button variant="primary" onClick={() => { activate(WalletConnect) }}>Wallet Connect</Button>{' '}
-      <Button variant="primary" onClick={() => { activate(Injected) }}>Metamask</Button>{' '}
-
-      <Button onClick={deactivate}>Disconnect</Button>
+      <ConnectWallet />
 
       <DropdownButton 
        id="dropdown-basic-button"
