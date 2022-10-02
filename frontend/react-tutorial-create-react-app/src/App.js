@@ -2,6 +2,7 @@ import {useState, useEffect} from "react";
 import MovieCard from './component/MovieCard';
 import './App.css';
 import searchIcon from './assets/images/search.svg'
+import { convertCurrency } from './utils/currency-converter';
 
 //OMDb API: http://www.omdbapi.com/?i=tt3896198&apikey=XXX
 const OMDB_API_URL = `http://www.omdbapi.com?apiKey=${process.env.REACT_APP_OMDB_API_KEY}`
@@ -26,7 +27,14 @@ const App = (props) => {
   }
 
   useEffect(() => {
-    searchMovies('Spiderman');
+    //getExchangeRate('USD', 'TWD')
+    convertCurrency('USD', 'TWD', 1000)
+      .then((message) => {
+        console.log(message)
+      }).catch(error => console.log(error.message));
+
+
+    //searchMovies('Spiderman');
     // return () => {
     //   cleanup
     // };
