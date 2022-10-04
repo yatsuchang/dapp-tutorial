@@ -13,12 +13,14 @@ import youtube from './api/youtube';
 const App = () => {
   const [video, setVideo] = useState({ videos: [], selectedVideo: null });
 
-  // useEffect(() => {
-  //   getCountries('USD')
-  //     .then((message) => {
-  //       console.log(message)
-  //     })//.catch(error => console.log(error.message));
-  // }, []); // call only once at start
+  useEffect(() => {
+    handleSubmit('stone cold')
+  }, []); // call only once at start, equal to 'componentDidMount'
+
+  useEffect(() => {
+    // componentDidMount scope
+    // componentWillUnmount scope
+  });// call each time after render
 
   const handleSubmit = async (searchTerm) => {
     const response = await youtube.get('search', { params: { q: searchTerm }});
