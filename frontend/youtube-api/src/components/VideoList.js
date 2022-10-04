@@ -1,11 +1,17 @@
 import React from 'react';
 import {useState, useEffect} from "react";
 
-const VideoList = () => {
+import { Grid } from '@material-ui/core';
+
+import VideoItem from './VideoItem';
+
+const VideoList = ({ videos, onVideoSelect }) => {
+  const listOfVideos = videos.map((video) => <VideoItem onVideoSelect={onVideoSelect} key={video.etag} video={video} />);
 
   return (
-    <h1>This is a video list component</h1>
+    <Grid container spacing={10}>
+      {listOfVideos}
+    </Grid> 
   )
-
 }
 export default VideoList;

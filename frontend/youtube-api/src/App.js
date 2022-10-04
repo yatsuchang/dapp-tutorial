@@ -11,6 +11,7 @@ import { SearchBar, VideoList, VideoDetail } from './components';
 import youtube from './api/youtube';
 
 const App = () => {
+  const [video, setVideo] = useState({ videos: [], selectedVideo: null });
 
   // useEffect(() => {
   //   getCountries('USD')
@@ -21,25 +22,31 @@ const App = () => {
 
   const handleSubmit = async (searchTerm) => {
     const response = await youtube.get('search', { params: { q: searchTerm }});
-    console.log(response);
+    console.log(response.data.items);
+    setVideo({...video, videos: response.data.items, selectedVideo: response.data.items[0]});
+  }
+
+  const onVideoSelect = (_video) => {
+    setVideo({...video, selectedVideo: _video});
+    console.log('[onVideoSelect] videos:', video.videos);
   }
 
   return (
     <div>
-      <Grid justifyContent="center" container spacing={2}>
+      <Grid justifyContent="center" container spacing={10}>
         <Grid item xs={12}>
-          <Grid container spacing={2}>
+          <Grid container spacing={10}>
             <Grid item xs={12}>
               {/* search bar */}
               <SearchBar onFormSubmit={handleSubmit} />
             </Grid>
             <Grid item xs={8}>
               {/* video detail */}
-              <VideoDetail />
+              <VideoDetail video={video.selectedVideo}/>
             </Grid>
             <Grid item xs={4}>
               {/* video list */}
-              <VideoList />
+              <VideoList videos={video.videos} onVideoSelect={onVideoSelect} />
             </Grid>
           </Grid>
         </Grid>
