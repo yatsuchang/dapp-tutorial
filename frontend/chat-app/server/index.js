@@ -8,17 +8,23 @@ const router = require('./router');
 
 const app = express();
 const server = http.createServer(app);// HTTP server
-const io = new Server(server);// pass the HTTP server to init a new socket.io instance
+const io = new Server(server, {cors: {origin: "*"}});// pass the HTTP server to init a new socket.io instance
 
 // listen connection event for incoming sockets
 io.on('connection', (socket) => {
   // everytime when an user connected, print the log
   console.log('a user connected');
-//   socket.on('chat message', (msg) => {
-//     console.log('message: ' + msg);
+  socket.on('join', ({ name, room}, callback) => {
+    console.log(name, room);
+
+    // if(error) {
+    //   callback();
+    // }
+
+    
 //     // boradcast to everyone
 //     io.emit('chat message', msg);
-//   });
+  });
   socket.on('disconnect', () => {
     console.log('user disconnected');
   });
