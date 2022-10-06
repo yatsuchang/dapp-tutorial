@@ -21,6 +21,7 @@ io.on('connection', (socket) => {
     const { error, user } = addUser({ id: socket.id, name, room });
 
     if(error) {
+      console.log('error:', error);
       return callback(error);
     }
     // tell the user
@@ -29,7 +30,8 @@ io.on('connection', (socket) => {
     socket.broadcast.to(user.room).emit('message', { user: 'admin', text: `${user.name} has joined!` });
 
     socket.join(user.room);
-    //callback(); will cause socket.id change later
+    io.to(user.room).emit('roomData', { room: user.room, users: getUsersInRoom(user.room)});
+    //callback(); //will cause socket.id change later
   });
 
   socket.on('sendMessage', (message, callback) => {
@@ -37,13 +39,17 @@ io.on('connection', (socket) => {
     const user = getUser(socket.id);
 
     io.to(user.room).emit('message', { user: user.name, text: message });
+    io.to(user.room).emit('roomData', { room: user.room, users: getUsersInRoom(user.room)});
 
     callback();
   })
 
   socket.on('disconnect', () => {
-    console.log('user disconnected');
-    //removeUser(socket.id);
+    const user = removeUser(socket.id);
+    console.log(`user ${user.name} disconnected`);
+    if(user) {
+      io.to(user.room).emit('message', { user: 'admin', text: `${user.name} has left.` });
+    }
   });
 });
 

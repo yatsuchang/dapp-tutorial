@@ -4,6 +4,10 @@ import { useLocation } from 'react-router-dom';
 import queryString from 'query-string';//get data from URL
 import { io } from 'socket.io-client';
 
+import InfoBar from '../InfoBar/InfoBar';
+import Input from '../Input/Input';
+import Messages from '../Messages/Messages';
+
 import './Chat.css';
 
 let socket;
@@ -51,16 +55,14 @@ function Chat() {
     }
   }
 
-  console.log('m:', message, ', ms:', messages);
+  console.log('name:', name, 'm:', message, ', ms:', messages);
 
   return (
     <div className="outerContainer">
       <div className="container">
-        <input 
-        value={message}
-        onChange={(e) => setMessage(e.target.value)}
-        onKeyPress={e => e.key === 'Enter' ? sendMessage(e) : null}
-        />
+        <InfoBar room={room} />
+        <Messages messages={messages} name={name} />
+        <Input message={message} setMessage={setMessage} sendMessage={sendMessage} />
       </div>
     </div>
   );
