@@ -53,3 +53,13 @@ setValue({foo: "foobar"});
 const [user, setUser] = useState({id: 1, username: "foobar"});
 setUser({...user, username: "example"});// OK!
 ```
+
+以下介紹幾個有用的套件
+- file-saver
+
+如果要作一個簡易版的 web server
+- mkdir server && cd server && touch index.js && npm init
+- npm i --save express body-parser cors html-pdf
+- index.js 會用來跑 Express server
+- 在 client 端的 package.json 中新增 "proxy":"http://localhost:5000/"
+- 執行 nodemon index.js

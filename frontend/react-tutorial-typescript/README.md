@@ -1,6 +1,38 @@
 # How to create this project
 
 Use `npx create-react-app ./ --template typescript`
+Add web3 dependencies 
+```js
+npm install ethers @web3-react/core
+//npm install @web3-react/core@8.0.22-beta.0 // 它原本裝 6.X 但不支援 initializeConnector
+//錢包整合 https://docs.cloud.coinbase.com/wallet-sdk/docs/web3-react
+//要裝的就是
+npm install @web3-react/walletlink-connector // Coinbase Wallet(web3-react v6仍使用舊名, 目前v6是正式版)
+npm install @web3-react/walletconnect-connector // Wallet Connect
+npm install @web3-react/injected-connector // Injected (e.g. Metamask)
+//參考 https://dev.to/yakult/how-to-use-web3-react-to-develop-dapp-1cgn
+```
+Add bootstrape
+```js
+npm install react-bootstrap bootstrap
+//參考一下用法: https://react-bootstrap.github.io/getting-started/introduction
+//使用時只載入要用的元件
+import { Button } from 'react-bootstrap';
+//因 React-Bootstrap 沒特定依賴某個 Bootstrap 版本, 故並無包含 CSS, 需要自行新增
+{/* The following line can be included in your src/index.js or App.js file*/}
+import 'bootstrap/dist/css/bootstrap.min.css';
+//若想要更多風格安裝 Bootswatch 並替換上面的 css
+//import "bootswatch/dist/[theme]/bootstrap.min.css"; 這裡的 theme 換成想要的風格
+import "bootswatch/dist/cyborg/bootstrap.min.css";
+// dropdown list => https://www.pluralsight.com/guides/how-to-capture-the-value-of-dropdown-lists-with-react-bootstrap
+```
+Support process.env usage
+```js
+//https://stackoverflow.com/questions/49579028/adding-an-env-file-to-react-project
+// because we use create-react-app, only need to create a .env and add it to .gitignore
+// 但記住變數需以 REACT_APP_ 開頭才行
+
+```
 
 # Getting Started with Create React App
 

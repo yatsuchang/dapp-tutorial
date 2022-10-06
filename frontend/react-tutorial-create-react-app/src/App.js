@@ -15,7 +15,8 @@ const App = (props) => {
   
   return (
     <div className="app">
-      <Movie />   
+      {/* <Movie /> */}
+      <h1>To Be Design New feature</h1>
     </div>
   );
 }

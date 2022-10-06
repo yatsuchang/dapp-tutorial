@@ -6,11 +6,14 @@ import { io } from 'socket.io-client';
 
 import './Chat.css';
 
+let socket;
+
 function Chat() {
   let location = useLocation();
-  let socket;
   const [name, setName] = useState('');
   const [room, setRoom] = useState('');
+  const [message, setMessage] = useState('');
+  const [messages, setMessages] = useState([]);
   const ENDPOINT = 'localhost:8000'
 
   useEffect(() => {
@@ -25,7 +28,6 @@ function Chat() {
     socket.emit('join', { name, room }, ({ error }) => {
       alert(error);
     });
-
     return () => {
       // clean
       socket.emit('disconnect');
@@ -33,8 +35,34 @@ function Chat() {
     }
   }, [ENDPOINT, location.search]);
 
+  useEffect(() => {
+    socket.on('message', (message) => {
+      console.log('receive message, extend')
+      setMessages([...messages, message]);
+    })
+  }, [messages]);
+
+  // function for sending messages
+  const sendMessage = (e) => {
+    e.preventDefault();
+
+    if(message) {
+      socket.emit('sendMessage', message, () => setMessage(''));
+    }
+  }
+
+  console.log('m:', message, ', ms:', messages);
+
   return (
-    <h1>Chat</h1>
+    <div className="outerContainer">
+      <div className="container">
+        <input 
+        value={message}
+        onChange={(e) => setMessage(e.target.value)}
+        onKeyPress={e => e.key === 'Enter' ? sendMessage(e) : null}
+        />
+      </div>
+    </div>
   );
 }
 
