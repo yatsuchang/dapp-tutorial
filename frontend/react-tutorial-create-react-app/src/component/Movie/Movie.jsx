@@ -1,7 +1,7 @@
 import {useState, useEffect} from "react";
-import MovieCard from './MovieCard';
-import '../App.css';
-import searchIcon from '../assets/images/search.svg'
+import MovieCard from '../MovieCard';
+import './Movie.css';
+import searchIcon from '../../assets/images/search.svg'
 
 //OMDb API: http://www.omdbapi.com/?i=tt3896198&apikey=XXX
 const OMDB_API_URL = `http://www.omdbapi.com?apiKey=${process.env.REACT_APP_OMDB_API_KEY}`

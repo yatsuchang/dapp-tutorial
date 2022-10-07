@@ -1,23 +1,25 @@
 import {useState, useEffect} from "react";
-import Movie from './component/Movie';
-import './App.css';
+//import Movie from './component/Movie/Movie'; would import Movie.css
+import Advice from './component/Advice/Advice';
+//import './App.css';
 import { convertCurrency } from './utils/currency-converter';
 
 
 const App = (props) => {
 
-  useEffect(() => {
-    convertCurrency('USD', 'TWD', 1000)
-      .then((message) => {
-        console.log(message)
-      }).catch(error => console.log(error.message));
-  }, []); // call only once at start
+  // useEffect(() => {
+  //   convertCurrency('USD', 'TWD', 1000)
+  //     .then((message) => {
+  //       console.log(message)
+  //     }).catch(error => console.log(error.message));
+  // }, []); // call only once at start
   
   return (
-    <div className="app">
+    <>
       {/* <Movie /> */}
-      <h1>To Be Design New feature</h1>
-    </div>
+      <Advice />
+      {/* <h1>To Be Design New feature</h1> */}
+    </>
   );
 }
 
