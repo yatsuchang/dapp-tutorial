@@ -44,7 +44,7 @@ function Chat() {
       console.log('receive message, extend')
       setMessages([...messages, message]);
     })
-  }, [messages]);
+  }, [message]);
 
   // function for sending messages
   const sendMessage = (e) => {
