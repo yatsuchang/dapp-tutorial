@@ -2,7 +2,7 @@
 
 npx create-react-app ./
 npm install --save react@16.13.0 react-dom@16.13.0
-npm install --save axios react-chartjs-2 react-countup classnames
+npm install --save axios react-chartjs-2 react-countup classnames @material-ui/core
 
 # Getting Started with Create React App
 
