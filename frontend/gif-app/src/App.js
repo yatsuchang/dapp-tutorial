@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 
-import Random from './components/Random_V1';
-import Tag from './components/Tag_V1';
+import Random from './components/Random_V2';
+import Tag from './components/Tag_V2';
 
 import './App.css';
 

@@ -27,7 +27,7 @@ const Tag = () => {
   return(
     <div className="container">
       <h1>Random {tag} Gif</h1>
-      <img width="500" src={gif} alt="Random Gif" />
+      <img width="500" src={gif} alt="Random Tag Gif" />
       <input value={tag} onChange={(e) => setTag(e.target.value)} />
       <button onClick={handleClick}>CLICK FOR NEW</button>
     </div>
