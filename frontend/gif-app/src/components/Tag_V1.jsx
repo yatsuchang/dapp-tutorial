@@ -18,7 +18,7 @@ const Tag = () => {
 
   useEffect(() => {
     fetchGif(tag);
-  }, []);
+  }, [tag]);
 
   const handleClick = () => {
     fetchGif(tag);
